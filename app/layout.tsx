@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} bg-[url('/images/cloudy/cloudy-2.jpg')] bg-center bg-cover bg-no-repeat h-screen`}>
         <HeaderComponents />
         <div>{children}</div>
       </body>
