@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { IconContext } from "react-icons";
 import { IoLocationOutline } from "react-icons/io5";
@@ -12,6 +13,7 @@ import { PiSunLight } from "react-icons/pi";
 import { config } from "dotenv";
 
 import fetchWeatherInfo from "../api/weatherInfo";
+import axios from "axios";
 
 const WeatherVisuals = () => {
   const today = new Date();
@@ -22,9 +24,63 @@ const WeatherVisuals = () => {
   const day: string = today.toLocaleString("en-US", { day: "2-digit" });
   const year: string = today.toLocaleString("en-US", { year: "numeric" });
 
+  const [locationName, setLocationName] = useState<string>("");
+
   const date = `${dayOfTheWeek} | ${day} ${month} ${year}`;
 
-  // fetchWeatherInfo();
+  const NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN =
+    process.env.NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN;
+  const NEXT_PUBLIC_ACCUWEATHER_API_KEY = process.env.NEXT_PUBLIC_ACCUWEATHER_API_KEY
+
+  // "https://us1.locationiq.com/v1/reverse?key=YOUR_ACCESS_TOKEN&lat=LATITUDE&lon=LONGITUDE&format=json"
+
+  const getNameOfLocation = async (userLocation: string) => {
+    console.log(userLocation.split(","));
+    const locationArray = userLocation.split(",");
+
+    try {
+      const response = await axios.get(
+        `https://us1.locationiq.com/v1/reverse?key=${NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN}&lat=${locationArray[0]}&lon=${locationArray[1]}&format=json`
+      );
+      const address = response.data.address;
+      console.log(address);
+      if (address.town) {
+        setLocationName(address.town);
+      } else if (address.county) {
+        setLocationName(address.county);
+      } else if (address.city) {
+        setLocationName(address.city);
+      } else if (address.village) {
+        setLocationName(address.village);
+      } else {
+        setLocationName(address.state);
+      }
+
+      window.localStorage.setItem("userState", address.state)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.code);
+        alert("Something went wrong, could not get city name");
+      }
+    }
+  };
+
+  const getLocationDetails = async (city: string) => {
+    const response = await axios.get(`http://dataservice.accuweather.com/locations/v1/cities/search?apikey=${NEXT_PUBLIC_ACCUWEATHER_API_KEY}&q=${city}`)
+    console.log(response.data)
+  }
+
+  useEffect(() => {
+    const userLocation = window.localStorage.getItem("userLocation");
+    if (userLocation) {
+      // fetchWeatherInfo(userLocation);
+      // const weatherInfo = JSON.parse(
+      //   window.localStorage.getItem("weatherInfo") || "{}"
+      // );
+      getNameOfLocation(userLocation);
+      getLocationDetails(locationName)
+    }
+  });
 
   return (
     <div className="px-12">
@@ -33,7 +89,7 @@ const WeatherVisuals = () => {
           <div className="mt-1">
             <IoLocationOutline />
           </div>
-          <p>New York</p>
+          <p>{locationName}</p>
         </div>
         <div className="flex justify-between pt-5">
           <div className="">
@@ -144,7 +200,7 @@ const WeatherVisuals = () => {
                 <FaThermometerThreeQuarters size={25} />
                 <p className="text-sm">Real Feel</p>
               </div>
-              <div className="text-center w-[5.5rem]">                
+              <div className="text-center w-[5.5rem]">
                 <p>30&deg;C</p>
               </div>
             </div>
@@ -153,7 +209,7 @@ const WeatherVisuals = () => {
                 <FaWind size={25} />
                 <p className="text-sm">Wind</p>
               </div>
-              <div className="text-center w-[8.5rem]">                
+              <div className="text-center w-[8.5rem]">
                 <p>0.8 km/hr</p>
               </div>
             </div>
@@ -162,7 +218,7 @@ const WeatherVisuals = () => {
                 <BsDroplet size={25} />
                 <p className="text-sm">Chance of rain</p>
               </div>
-              <div className="text-center w-[5.5rem]">                
+              <div className="text-center w-[5.5rem]">
                 <p>2%</p>
               </div>
             </div>
@@ -171,7 +227,7 @@ const WeatherVisuals = () => {
                 <PiSunLight size={25} />
                 <p className="text-sm">UV Index</p>
               </div>
-              <div className="text-center w-[5rem]">                
+              <div className="text-center w-[5rem]">
                 <p>4</p>
               </div>
             </div>
