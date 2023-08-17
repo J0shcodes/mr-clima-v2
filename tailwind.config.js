@@ -16,6 +16,13 @@ module.exports = {
         '3xl': '0 0 8px rgba(0, 0 ,0, 0.3)'
       }
     },
+    screens: {
+      'md': {'max': '767px'},
+      // => @media (max-width: 767px) { ... }
+
+      'sm': {'max': '639px'},
+      // => @media (max-width: 639px) { ... }
+    }
   },
   plugins: [],
 }
