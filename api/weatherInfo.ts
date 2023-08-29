@@ -1,11 +1,12 @@
 import { config } from "dotenv";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 import getLocationKey from "@/helper/LocationKey";
 // import
 
 const fetchWeatherInfo = async (city: string | undefined) => {
-  const env = config();
+  
 
   const NEXT_PUBLIC_TOMORROW_API_KEY = process.env.NEXT_PUBLIC_TOMORROW_API_KEY
   const NEXT_PUBLIC_ACCUWEATHER_API_KEY = process.env.NEXT_PUBLIC_ACCUWEATHER_API_KEY
@@ -13,6 +14,7 @@ const fetchWeatherInfo = async (city: string | undefined) => {
   console.log(NEXT_PUBLIC_TOMORROW_API_KEY)
   
   console.log(city)
+  window.localStorage.setItem("location", JSON.stringify(city));
 
   const locationKey = await getLocationKey(city)
   console.log(locationKey)
@@ -29,6 +31,7 @@ const fetchWeatherInfo = async (city: string | undefined) => {
     const data = response.data[0]
     // console.log(data);
     window.localStorage.setItem("weatherInfo", JSON.stringify(data));
+    window.location.reload()
   } catch (error) {
     if(axios.isAxiosError(error)) {
       if(error.response?.status === 500) {

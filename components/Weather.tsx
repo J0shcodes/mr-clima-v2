@@ -20,6 +20,10 @@ import getWeatherForecast from "@/api/Forecast";
 import getEventData from "@/api/Events";
 import getForecastTimeArray from "@/helper/ForecastTime";
 import getMetricTemperatureArray from "@/helper/MetricTemperature";
+import Forecast from "./Forecast";
+import AirConditions from "./AirConditions";
+
+const location = JSON.parse(window.localStorage.getItem("location") || "");
 
 const WeatherVisuals = () => {
   const [locationName, setLocationName] = useState<string | undefined>("");
@@ -51,29 +55,27 @@ const WeatherVisuals = () => {
         const address = response.data.address;
         console.log(address);
 
-        if (address.town) return address.town;
-        if (address.county) return address.county;
-        if (address.city) return address.city;
-        if (address.village) return address.village;
-        if (address.state) return address.state;
+        if (address.town) {
+          window.localStorage.setItem("userState", address.town);
+          return address.town;
+        }
+        if (address.county) {
+          window.localStorage.setItem("userState", address.county);
+          return address.county;
+        }
+        if (address.city) {
+          window.localStorage.setItem("userState", address.city);
+          return address.city;
+        }
+        if (address.village) {
+          window.localStorage.setItem("userState", address.village);
+          return address.village;
+        }
+        if (address.state) {
+          window.localStorage.setItem("userState", address.state);
+          return address.state;
+        }
 
-        // if (address.town) {
-        //   console.log(address.town)
-        //   setLocationName(address.town);
-        // } else if (address.county) {
-        //   console.log(address.county)
-        //   setLocationName(address.county);
-        // } else if (address.city) {
-        //   console.log(address.city)
-        //   setLocationName(address.city);
-        // } else if (address.village) {
-        //   console.log(address.village)
-        //   setLocationName(address.village);
-        // } else {
-        //   setLocationName(address.state);
-        // }
-
-        window.localStorage.setItem("userState", address.state);
       } catch (error) {
         if (axios.isAxiosError(error)) {
           console.log(error.code);
@@ -85,34 +87,22 @@ const WeatherVisuals = () => {
   );
 
   useEffect(() => {
-    const userLocation = window.localStorage.getItem("userLocation");
+    const userLocation = window.localStorage.getItem("userLocation") || "[]";
 
     const callDataFunctions = async () => {
-      if (userLocation) {
+      // if (userLocation) {
         const locationName = await getNameOfLocation(userLocation);
         setLocationName(locationName)
         // const locationKey = await getLocationKey(locationName);
-        fetchWeatherInfo(locationName);
+        // fetchWeatherInfo(locationName);
         // getEventData()
-        const forecast = await getWeatherForecast(locationName)
+        // const forecast = await getWeatherForecast(locationName)
         // console.log(forecast)
 
         const weatherInfo = JSON.parse(
           window.localStorage.getItem("weatherInfo") || "{}"
         );
         setWeatherInfo(weatherInfo);
-
-        const weatherForecast = JSON.parse(
-          window.localStorage.getItem("Forecast") || "[]"
-        );
-        const slicedWeatherForecast = weatherForecast.slice(0, 6);
-        setForecasts(slicedWeatherForecast);
-
-        const forecastTimeArray = getForecastTimeArray(forecasts);
-        setForecastTimeArray(forecastTimeArray);
-
-        const metricTemperatureArray = getMetricTemperatureArray(forecasts);
-        setMetricTemperatureArray(metricTemperatureArray);
 
         const today = new Date(weatherInfo.LocalObservationDateTime);
 
@@ -126,30 +116,29 @@ const WeatherVisuals = () => {
 
         const imageName = getImageName();
         window.localStorage.setItem("imageName", imageName);
-      }
+      // }
     };
 
     callDataFunctions();
-
   }, [getNameOfLocation, locationName]);
 
   return (
-    <div className="px-12">
+    <div className="px-12 md:px-4">
       <div className="px-4">
         <div className="flex text-lg">
           <div className="mt-1">
             <IoLocationOutline />
           </div>
-          <p>{locationName}</p>
+          <p>{location}</p>
         </div>
-        <div className="flex justify-between pt-5">
+        <div className="flex md:flex-col justify-between md:justify-center md:items-center md:gap-y-16 pt-5">
           <div className="">
-            <h2 className="text-4xl font-medium mt-3">
+            <h2 className="text-4xl font-medium mt-3 md:text-2xl">
               {weatherInfo ? weatherInfo.WeatherText : ""}
             </h2>
           </div>
           <div className="font-medium">
-            <p className="text-4xl">
+            <p className="text-4xl md:text-5xl md:text-center">
               {weatherInfo ? weatherInfo.Temperature.Metric.Value : ""}&deg;
               {weatherInfo ? weatherInfo.Temperature.Metric.Unit : ""}
             </p>
@@ -157,7 +146,7 @@ const WeatherVisuals = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-flow-col grid-rows-4 gap-6 pt-4">
+      <div className="grid grid-flow-col grid-rows-4 gap-6 pt-4 md:block">
         <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] row-span-2 shadow-3xl rounded-2xl py-6 px-14">
           <h1 className="text-xl">Events in your area</h1>
           <div className="flex justify-between mt-10">
@@ -203,94 +192,8 @@ const WeatherVisuals = () => {
             </div>
           </div>
         </div>
-        <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[11.875rem] row-span-2 shadow-3xl rounded-2xl py-6 px-14">
-          <div className="flex justify-between w-[9.375rem]">
-            <div className="mt-1">
-              <CiClock2 />
-            </div>
-            <h2>12-hour forecast</h2>
-          </div>
-          <div className="flex justify-between mt-8">
-            {forecasts
-              ? forecasts.map((forecast, index) => (
-                  <div className="text-sm" key={forecast.DateTime}>
-                    <p>
-                      {forecastTimeArray.length !== 0
-                        ? forecastTimeArray[index]
-                        : ""}
-                    </p>
-                    <div className="flex justify-center items-center my-1">
-                      <Image
-                        src={`/icons/${forecast.WeatherIcon}.svg`}
-                        alt=""
-                        width={50}
-                        height={50}
-                      />
-                    </div>
-                    {metricTemperatureArray.length !== 0 ? (
-                      <p className="text-center">
-                        {metricTemperatureArray[index]}&deg;C
-                      </p>
-                    ) : (
-                      <p className="text-center"></p>
-                    )}
-                  </div>
-                ))
-              : null}
-          </div>
-        </div>
-        <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[29.375rem] shadow-3xl rounded-2xl row-span-4 py-8 px-4">
-          <h2 className="text-lg">AIR CONDITIONS</h2>
-          <div className="mt-5">
-            <div className="mb-12">
-              <div className="flex justify-between w-[5.3rem]">
-                <FaThermometerThreeQuarters size={25} />
-                <p className="text-sm">Real Feel</p>
-              </div>
-              <div className="text-center w-[5.5rem]">
-                <p>
-                  {weatherInfo
-                    ? weatherInfo.RealFeelTemperature.Metric.Value
-                    : ""}
-                  &deg;
-                  {weatherInfo
-                    ? weatherInfo.RealFeelTemperature.Metric.Unit
-                    : ""}
-                </p>
-              </div>
-            </div>
-            <div className="mb-12">
-              <div className="flex justify-between w-[4rem]">
-                <FaWind size={25} />
-                <p className="text-sm">Wind</p>
-              </div>
-              <div className="text-center w-[8.5rem]">
-                <p>
-                  {weatherInfo ? weatherInfo.Wind.Speed.Metric.Value : ""}
-                  {weatherInfo ? weatherInfo.Wind.Speed.Metric.Unit : ""}
-                </p>
-              </div>
-            </div>
-            <div className="mb-12">
-              <div className="flex justify-between w-[8rem]">
-                <BsDroplet size={25} />
-                <p className="text-sm">Chance of rain</p>
-              </div>
-              <div className="text-center w-[5.5rem]">
-                <p>{weatherInfo ? `${weatherInfo.RelativeHumidity}%` : ""}</p>
-              </div>
-            </div>
-            <div>
-              <div className="flex justify-between w-[5.8rem]">
-                <PiSunLight size={25} />
-                <p className="text-sm">UV Index</p>
-              </div>
-              <div className="text-center w-[5rem]">
-                <p>{weatherInfo ? weatherInfo.UVIndex : ""}</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <Forecast/>
+        <AirConditions/>
       </div>
     </div>
   );

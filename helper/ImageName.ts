@@ -5,10 +5,13 @@ const getImageName = (): string => {
     window.localStorage.getItem("weatherInfo") || "{}"
   );
 
+  console.log(weatherInfo)
+
   if (
     weatherInfo.WeatherText === "Cloudy" ||
     weatherInfo.WeatherText === "Mostly cloudy" ||
-    weatherInfo.WeatherText === "Partly cloudy"
+    weatherInfo.WeatherText === "Partly cloudy" ||
+    weatherInfo.WeatherText === "Some clouds"
   ) {
     imageNameArray = [
       "cloudy/cloudy-1",
@@ -19,7 +22,7 @@ const getImageName = (): string => {
     ];
   }
 
-  if (weatherInfo.WeatherText === "Rainy") {
+  if (weatherInfo.WeatherText === "Rainy" || weatherInfo.WeatherText === "Light rain") {
     imageNameArray = [
       "raindrops/raindrops-1",
       "raindrops/raindrops-2",
