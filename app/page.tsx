@@ -63,7 +63,7 @@ export default function Home() {
       const lat = position.coords.latitude;
       const long = position.coords.longitude;
       window.localStorage.setItem("userLocation", `${lat},${long}`);
-      console.log(window.localStorage.getItem("userLocation"));
+      // console.log(window.localStorage.getItem("userLocation"));
     };
 
     try {
