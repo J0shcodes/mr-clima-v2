@@ -23,7 +23,7 @@ import getMetricTemperatureArray from "@/helper/MetricTemperature";
 import Forecast from "./Forecast";
 import AirConditions from "./AirConditions";
 
-const location = JSON.parse(window.localStorage.getItem("location") || "");
+// const location = JSON.parse(window.localStorage.getItem("location") || "");
 
 const WeatherVisuals = () => {
   const [locationName, setLocationName] = useState<string | undefined>("");
@@ -35,6 +35,7 @@ const WeatherVisuals = () => {
   const [metricTemperatureArray, setMetricTemperatureArray] = useState<
     string[]
   >([]);
+  const [location, setLocation] = useState<string>("")
 
   const NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN =
     process.env.NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN;
@@ -87,12 +88,14 @@ const WeatherVisuals = () => {
   );
 
   useEffect(() => {
+    const location = JSON.parse(window.localStorage.getItem("location") || "");
+    setLocation(location)
     const userLocation = window.localStorage.getItem("userLocation") || "[]";
 
     const callDataFunctions = async () => {
       // if (userLocation) {
-        const locationName = await getNameOfLocation(userLocation);
-        setLocationName(locationName)
+        // const locationName = await getNameOfLocation(userLocation);
+        // setLocationName(locationName)
         // const locationKey = await getLocationKey(locationName);
         // fetchWeatherInfo(locationName);
         // getEventData()
@@ -147,7 +150,7 @@ const WeatherVisuals = () => {
         </div>
       </div>
       <div className="grid grid-flow-col grid-rows-4 gap-6 pt-4 md:block">
-        <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] row-span-2 shadow-3xl rounded-2xl py-6 px-14">
+        <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] row-span-2 shadow-3xl rounded-2xl py-6 px-14 md:hidden">
           <h1 className="text-xl">Events in your area</h1>
           <div className="flex justify-between mt-10">
             <div className="rounded-lg">

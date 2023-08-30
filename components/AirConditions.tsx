@@ -1,23 +1,30 @@
+import { useState, useEffect } from "react";
+
 import { FaThermometerThreeQuarters } from "react-icons/fa";
 import { FaWind } from "react-icons/fa";
 import { BsDroplet } from "react-icons/bs";
 import { PiSunLight } from "react-icons/pi";
 
-const weatherInfo = JSON.parse(
-  window.localStorage.getItem("weatherInfo") || "{}"
-);
-
 const AirConditions = () => {
+  const [weatherInfo, setWeatherInfo] = useState<any>();
+
+  useEffect(() => {
+    const weatherInfo = JSON.parse(
+      window.localStorage.getItem("weatherInfo") || "{}"
+    );
+    setWeatherInfo(weatherInfo);
+  }, [setWeatherInfo]);
+
   return (
-    <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[29.375rem] shadow-3xl rounded-2xl row-span-4 py-8 px-4">
-      <h2 className="text-lg">AIR CONDITIONS</h2>
-      <div className="mt-5">
-        <div className="mb-12">
-          <div className="flex justify-between w-[5.3rem]">
+    <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[29.375rem] md:h-fit shadow-3xl rounded-2xl row-span-4 py-8 md:py-6 px-4 md:mt-3">
+      <h2 className="text-lg md:text-base">AIR CONDITIONS</h2>
+      <div className="mt-5 md:flex md:justify-between">
+        <div className="mb-12 flex gap-1 md:flex-col md:mb-0">
+          <div className="md:flex md:flex-col md:justify-center md:items-center">
             <FaThermometerThreeQuarters size={25} />
-            <p className="text-sm">Real Feel</p>
           </div>
-          <div className="text-center w-[5.5rem]">
+          <div className="md:text-center">
+            <p className="text-sm">Real Feel</p>
             <p>
               {weatherInfo ? weatherInfo.RealFeelTemperature.Metric.Value : ""}
               &deg;
@@ -25,34 +32,36 @@ const AirConditions = () => {
             </p>
           </div>
         </div>
-        <div className="mb-12">
-          <div className="flex justify-between w-[4rem]">
+        <div className="mb-12 flex gap-1 md:flex-col md:mb-0">
+          <div className="md:flex md:flex-col md:justify-center md:items-center">
             <FaWind size={25} />
-            <p className="text-sm">Wind</p>
           </div>
-          <div className="text-center w-[8.5rem]">
+          <div className="md:text-center">
+            <p className="text-sm">Wind</p>
             <p>
               {weatherInfo ? weatherInfo.Wind.Speed.Metric.Value : ""}
               {weatherInfo ? weatherInfo.Wind.Speed.Metric.Unit : ""}
             </p>
           </div>
         </div>
-        <div className="mb-12">
-          <div className="flex justify-between w-[8rem]">
+        <div className="mb-12 flex gap-1 md:flex-col md:mb-0">
+          <div className="md:flex md:flex-col md:justify-center md:items-center">
             <BsDroplet size={25} />
-            <p className="text-sm">Chance of rain</p>
           </div>
-          <div className="text-center w-[5.5rem]">
-            <p>{weatherInfo ? `${weatherInfo.RelativeHumidity}%` : ""}</p>
+          <div className="md:text-center">
+            <p className="text-sm">Chance of rain</p>
+            <p className="">
+              {weatherInfo ? `${weatherInfo.RelativeHumidity}%` : ""}
+            </p>
           </div>
         </div>
-        <div>
-          <div className="flex justify-between w-[5.8rem]">
+        <div className="flex gap-1 md:flex-col md:mb-0">
+          <div className="md:flex md:flex-col md:justify-center md:items-center">
             <PiSunLight size={25} />
-            <p className="text-sm">UV Index</p>
           </div>
-          <div className="text-center w-[5rem]">
-            <p>{weatherInfo ? weatherInfo.UVIndex : ""}</p>
+          <div className="md:text-center">
+            <p className="text-sm">UV Index</p>
+            <p className="">{weatherInfo ? weatherInfo.UVIndex : ""}</p>
           </div>
         </div>
       </div>

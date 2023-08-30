@@ -75,6 +75,16 @@ const getImageName = (): string => {
     ];
   }
 
+  if (weatherInfo.WeatherText === "Overcast") {
+    imageNameArray = [
+      "overcast/overcast-1",
+      "overcast/overcast-2",
+      "overcast/overcast-3",
+      "overcast/overcast-4",
+      "overcast/overcast-5",
+    ];
+  }
+
   const imageNameIndex = Math.floor(Math.random() * imageNameArray.length);
   return `/images/${imageNameArray[imageNameIndex]}.jpg`;
 };

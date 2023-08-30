@@ -6,11 +6,11 @@ import getWeatherForecast from "@/api/Forecast";
 import getForecastTimeArray from "@/helper/ForecastTime";
 import getMetricTemperatureArray from "@/helper/MetricTemperature";
 
-const locationName = window.localStorage.getItem("userState");
-const forecast: any[] = JSON.parse(
-  window.localStorage.getItem("Forecast") || "[]"
-);
-console.log(forecast, locationName);
+// const locationName = window.localStorage.getItem("userState");
+// const forecast: any[] = JSON.parse(
+//   window.localStorage.getItem("Forecast") || "[]"
+// );
+// console.log(forecast, locationName);
 
 const Forecast = () => {
   const [forecasts, setForecasts] = useState<any[] | undefined>([]);
@@ -20,6 +20,13 @@ const Forecast = () => {
   >([]);
 
   useEffect(() => {
+    const locationName = JSON.parse(window.localStorage.getItem("location") || "");
+    console.log(locationName)
+    const forecast: any[] = JSON.parse(
+      window.localStorage.getItem("Forecast") || "[]"
+    );
+    console.log(forecast, locationName);
+    
     const callForecastData = async () => {
       if (locationName) {
         const forecastData = await getWeatherForecast(locationName);
@@ -40,7 +47,7 @@ const Forecast = () => {
     // callForecastData()
   }, []);
   return (
-    <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[11.875rem] row-span-2 shadow-3xl rounded-2xl py-6 px-14">
+    <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[11.875rem] row-span-2 shadow-3xl rounded-2xl py-6 px-14 md:mb-3">
       <div className="flex justify-between w-[9.375rem]">
         <div className="mt-1">
           <CiClock2 />
