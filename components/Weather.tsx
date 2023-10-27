@@ -11,6 +11,7 @@ import { FaWind } from "react-icons/fa";
 import { BsDroplet } from "react-icons/bs";
 import { PiSunLight } from "react-icons/pi";
 import { config } from "dotenv";
+import { ToastContainer, toast } from "react-toastify";
 
 import fetchWeatherInfo from "../api/weatherInfo";
 import axios from "axios";
@@ -25,13 +26,15 @@ import AirConditions from "./AirConditions";
 
 // const location = JSON.parse(window.localStorage.getItem("location") || "");
 
-// interface WeatherVisualProps {
-//   lat: number | undefined
-//   long: number | undefined
-// }
+interface WeatherVisualProps {
+  lat: number | undefined;
+  long: number | undefined;
+}
 
-const WeatherVisuals = () => {
+const WeatherVisuals: FC<WeatherVisualProps> = ({ lat, long }) => {
+  console.log(lat, long);
   const [locationName, setLocationName] = useState<string | undefined>("");
+  const [userLocation, setUserLocation] = useState("")
   const [weatherInfo, setWeatherInfo] = useState<any>();
   const [date, setDate] = useState<string>("");
   const [imageName, setImageName] = useState<string>("");
@@ -40,7 +43,7 @@ const WeatherVisuals = () => {
   const [metricTemperatureArray, setMetricTemperatureArray] = useState<
     string[]
   >([]);
-  const [location, setLocation] = useState<string>("")
+  const [location, setLocation] = useState<string>("");
 
   const NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN =
     process.env.NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN;
@@ -134,14 +137,39 @@ const WeatherVisuals = () => {
   //   callDataFunctions();
   // }, [getNameOfLocation, locationName, weatherInfo]);
 
+  const getUserLocation = useCallback(async () => {
+    console.log(lat, long);
+    try {
+      const response = await axios.get(
+        `https://us1.locationiq.com/v1/reverse?key=${NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN}&lat=${lat}&lon=${long}&format=json`
+      );
+      console.log(response.data.address);
+      setUserLocation(response.data.address.county)
+      console.log(userLocation)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.log(error);
+        toast.error("Something went wrong, could not get city name");
+      }
+    }
+  }, [NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN, lat, long, userLocation]);
+
+  useEffect(() => {
+    const callLocationFunction = async () => {
+      await getUserLocation();
+    };
+
+    callLocationFunction();
+  }, [getUserLocation]);
+
   return (
-    <div className="px-12 md:px-4 bg-red-600">
+    <div className="px-12 md:px-4">
       <div className="px-4">
         <div className="flex text-lg">
           <div className="mt-1">
             <IoLocationOutline />
           </div>
-          <p>Location</p>
+          <p>{userLocation}</p>
         </div>
         <div className="flex md:flex-col justify-between md:justify-center md:items-center md:gap-y-16 pt-5">
           <div className="">
@@ -206,6 +234,18 @@ const WeatherVisuals = () => {
         </div>
         {/* <Forecast/> */}
         {/* <AirConditions/> */}
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
       </div>
     </div>
   );
