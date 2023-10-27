@@ -34,7 +34,7 @@ interface WeatherVisualProps {
 const WeatherVisuals: FC<WeatherVisualProps> = ({ lat, long }) => {
   console.log(lat, long);
   const [locationName, setLocationName] = useState<string | undefined>("");
-  const [userLocation, setUserLocation] = useState("")
+  const [userLocation, setUserLocation] = useState("");
   const [weatherInfo, setWeatherInfo] = useState<any>();
   const [date, setDate] = useState<string>("");
   const [imageName, setImageName] = useState<string>("");
@@ -137,22 +137,22 @@ const WeatherVisuals: FC<WeatherVisualProps> = ({ lat, long }) => {
   //   callDataFunctions();
   // }, [getNameOfLocation, locationName, weatherInfo]);
 
-  const getUserLocation = useCallback(async () => {
+  const getUserLocation = async () => {
     console.log(lat, long);
     try {
       const response = await axios.get(
         `https://us1.locationiq.com/v1/reverse?key=${NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN}&lat=${lat}&lon=${long}&format=json`
       );
       console.log(response.data.address);
-      setUserLocation(response.data.address.county)
-      console.log(userLocation)
+      setUserLocation(response.data.address.county);
+      console.log(userLocation);
     } catch (error) {
       if (axios.isAxiosError(error)) {
         console.log(error);
         toast.error("Something went wrong, could not get city name");
       }
     }
-  }, [NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN, lat, long, userLocation]);
+  };
 
   useEffect(() => {
     const callLocationFunction = async () => {
@@ -160,17 +160,19 @@ const WeatherVisuals: FC<WeatherVisualProps> = ({ lat, long }) => {
     };
 
     callLocationFunction();
-  }, [getUserLocation]);
+  });
 
   return (
     <div className="px-12 md:px-4">
       <div className="px-4">
-        <div className="flex text-lg">
-          <div className="mt-1">
-            <IoLocationOutline />
+        {userLocation ? (
+          <div className="flex text-lg">
+            <div className="mt-1">
+              <IoLocationOutline />
+            </div>
+            <p>{userLocation}</p>
           </div>
-          <p>{userLocation}</p>
-        </div>
+        ) : null}
         <div className="flex md:flex-col justify-between md:justify-center md:items-center md:gap-y-16 pt-5">
           <div className="">
             <h2 className="text-4xl font-medium mt-3 md:text-2xl">
