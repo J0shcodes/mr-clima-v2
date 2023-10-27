@@ -52,8 +52,8 @@ const HeaderComponents = () => {
   };
 
   return (
-    <header className="bg-green-500">
-      <div className="flex justify-between bg-yellow-400 px-12 md:px-4 md:pr-4 py-6 md:py-2">
+    <header className="">
+      <div className="flex justify-between px-12 md:px-4 md:pr-4 py-6 md:py-2">
         <div className="relative mt-[1.4rem] md:mt-[0.5rem]">
           <div className="absolute top-[-3.3rem] left-[-3.1rem] md:hidden">
             <Image src="/icons/cloud&sun.png" alt="" width={70} height={70} />
@@ -61,7 +61,7 @@ const HeaderComponents = () => {
           <h1 className="text-3xl md:text-xl">Mr. Clima</h1>
           <p className="text-end text-sm">{time}</p>
         </div>
-        <form className="relative mt-8 md:mt-2 bg-red-500" onSubmit={handleLocationSearch}>
+        <form className="relative mt-8 md:mt-2" onSubmit={handleLocationSearch}>
           <div className="text-[#6b6969] absolute left-[1rem] top-1 w-fit">
             <FaSearch size={35} />
           </div>
