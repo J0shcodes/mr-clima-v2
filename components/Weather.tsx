@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, FC } from "react";
 import Image from "next/image";
 import { IconContext } from "react-icons";
 import { IoLocationOutline } from "react-icons/io5";
@@ -25,6 +25,11 @@ import AirConditions from "./AirConditions";
 
 // const location = JSON.parse(window.localStorage.getItem("location") || "");
 
+// interface WeatherVisualProps {
+//   lat: number | undefined
+//   long: number | undefined
+// }
+
 const WeatherVisuals = () => {
   const [locationName, setLocationName] = useState<string | undefined>("");
   const [weatherInfo, setWeatherInfo] = useState<any>();
@@ -44,108 +49,112 @@ const WeatherVisuals = () => {
 
   // "https://us1.locationiq.com/v1/reverse?key=YOUR_ACCESS_TOKEN&lat=LATITUDE&lon=LONGITUDE&format=json"
 
-  const getNameOfLocation = useCallback(
-    async (userLocation: string): Promise<string | undefined> => {
-      console.log(userLocation.split(","));
-      const locationArray = userLocation.split(",");
+  // const getNameOfLocation = useCallback(
+  //   async (userLocation: string): Promise<string | undefined> => {
+  //     console.log(userLocation.split(","));
+  //     const locationArray = userLocation.split(",");
 
-      try {
-        const response = await axios.get(
-          `https://us1.locationiq.com/v1/reverse?key=${NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN}&lat=${locationArray[0]}&lon=${locationArray[1]}&format=json`
-        );
-        const address = response.data.address;
-        console.log(address);
+  //     let userCity = ''
 
-        if (address.town) {
-          window.localStorage.setItem("userState", address.town);
-          return address.town;
-        }
-        if (address.county) {
-          window.localStorage.setItem("userState", address.county);
-          return address.county;
-        }
-        if (address.city) {
-          window.localStorage.setItem("userState", address.city);
-          return address.city;
-        }
-        if (address.village) {
-          window.localStorage.setItem("userState", address.village);
-          return address.village;
-        }
-        if (address.state) {
-          window.localStorage.setItem("userState", address.state);
-          return address.state;
-        }
+  //     try {
+  //       const response = await axios.get(
+  //         `https://us1.locationiq.com/v1/reverse?key=${NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN}&lat=${locationArray[0]}&lon=${locationArray[1]}&format=json`
+  //       );
+  //       const address = response.data.address;
+  //       console.log(address);
 
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.log(error.code);
-          alert("Something went wrong, could not get city name");
-        }
-      }
-    },
-    [NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN]
-  );
+  //       if (address.town) {
+  //         window.localStorage.setItem("userState", address.town);
+  //         userCity = address.town;
+  //       }
+  //       if (address.county) {
+  //         window.localStorage.setItem("userState", address.county);
+  //         userCity = address.county;
+  //       }
+  //       if (address.city) {
+  //         window.localStorage.setItem("userState", address.city);
+  //         userCity = address.city;
+  //       }
+  //       if (address.village) {
+  //         window.localStorage.setItem("userState", address.village);
+  //         userCity = address.village;
+  //       }
+  //       // if (address.state) {
+  //       //   window.localStorage.setItem("userState", address.state);
+  //       //   userCity = address.state;
+  //       // }
 
-  useEffect(() => {
-    const location = JSON.parse(window.localStorage.getItem("location") || "");
-    setLocation(location)
-    const userLocation = window.localStorage.getItem("userLocation") || "[]";
+  //     } catch (error) {
+  //       if (axios.isAxiosError(error)) {
+  //         console.log(error);
+  //         alert("Something went wrong, could not get city name");
+  //       }
+  //     }
+  //     return userCity
+  //   },
+  //   [NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN]
+  // );
 
-    const callDataFunctions = async () => {
-      // if (userLocation) {
-        // const locationName = await getNameOfLocation(userLocation);
-        // setLocationName(locationName)
-        // const locationKey = await getLocationKey(locationName);
-        // fetchWeatherInfo(locationName);
-        // getEventData()
-        // const forecast = await getWeatherForecast(locationName)
-        // console.log(forecast)
+  // useEffect(() => {
+  //   const location = JSON.parse(window.localStorage.getItem("location") || "");
+  //   setLocation(location)
+  //   const userLocation = window.localStorage.getItem("userLocation") || "[]";
 
-        const weatherInfo = JSON.parse(
-          window.localStorage.getItem("weatherInfo") || "{}"
-        );
-        setWeatherInfo(weatherInfo);
+  //   const callDataFunctions = async () => {
+  //     if (userLocation) {
+  //       const locationName = await getNameOfLocation(userLocation);
+  //       console.log(locationName)
+  //       setLocationName(locationName)
+  //       // const locationKey = await getLocationKey(locationName);
+  //       fetchWeatherInfo(locationName);
+  //       // getEventData()
+  //       // const forecast = await getWeatherForecast(locationName)
+  //       // console.log(forecast)
 
-        const today = new Date(weatherInfo.LocalObservationDateTime);
+  //       const weatherInfo = JSON.parse(
+  //         window.localStorage.getItem("weatherInfo") || "{}"
+  //       );
+  //       setWeatherInfo(weatherInfo);
 
-        const month = today.toLocaleString("en-US", { month: "short" });
-        const year = today.toLocaleString("en-US", { year: "numeric" });
-        const day = today.toLocaleString("en-US", { day: "numeric" });
-        const dayOfTheWeek = today.toLocaleString("en-US", { weekday: "long" });
+  //       const today = new Date(weatherInfo.LocalObservationDateTime);
 
-        const locationDate = `${dayOfTheWeek} | ${day} ${month} ${year}`;
-        setDate(locationDate);
+  //       const month = today.toLocaleString("en-US", { month: "short" });
+  //       const year = today.toLocaleString("en-US", { year: "numeric" });
+  //       const day = today.toLocaleString("en-US", { day: "numeric" });
+  //       const dayOfTheWeek = today.toLocaleString("en-US", { weekday: "long" });
 
-        const imageName = getImageName();
-        window.localStorage.setItem("imageName", imageName);
-      // }
-    };
+  //       const locationDate = `${dayOfTheWeek} | ${day} ${month} ${year}`;
+  //       setDate(locationDate);
 
-    callDataFunctions();
-  }, [getNameOfLocation, locationName]);
+  //       const imageName = getImageName();
+  //       window.localStorage.setItem("imageName", imageName);
+  //     }
+  //   };
+
+  //   callDataFunctions();
+  // }, [getNameOfLocation, locationName, weatherInfo]);
 
   return (
-    <div className="px-12 md:px-4">
+    <div className="px-12 md:px-4 bg-red-600">
       <div className="px-4">
         <div className="flex text-lg">
           <div className="mt-1">
             <IoLocationOutline />
           </div>
-          <p>{location}</p>
+          <p>Location</p>
         </div>
         <div className="flex md:flex-col justify-between md:justify-center md:items-center md:gap-y-16 pt-5">
           <div className="">
             <h2 className="text-4xl font-medium mt-3 md:text-2xl">
-              {weatherInfo ? weatherInfo.WeatherText : ""}
+              {/* {weatherInfo ? weatherInfo.WeatherText : ""} */}Cloudy
             </h2>
           </div>
           <div className="font-medium">
             <p className="text-4xl md:text-5xl md:text-center">
-              {weatherInfo ? weatherInfo.Temperature.Metric.Value : ""}&deg;
-              {weatherInfo ? weatherInfo.Temperature.Metric.Unit : ""}
+              {/* {weatherInfo ? weatherInfo.Temperature.Metric.Value : ""}&deg;
+              {weatherInfo ? weatherInfo.Temperature.Metric.Unit : ""} */}
             </p>
-            <p className="">{date}</p>
+            <p className="">date</p>
           </div>
         </div>
       </div>
@@ -195,8 +204,8 @@ const WeatherVisuals = () => {
             </div>
           </div>
         </div>
-        <Forecast/>
-        <AirConditions/>
+        {/* <Forecast/> */}
+        {/* <AirConditions/> */}
       </div>
     </div>
   );

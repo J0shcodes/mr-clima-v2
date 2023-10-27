@@ -29,11 +29,12 @@ const fetchWeatherInfo = async (city: string | undefined) => {
     // const data = response.data
     console.log(response.data[0], response)
     const data = response.data[0]
-    // console.log(data);
+    console.log(data);
     window.localStorage.setItem("weatherInfo", JSON.stringify(data));
     window.location.reload()
   } catch (error) {
     if(axios.isAxiosError(error)) {
+      console.log(error.response)
       if(error.response?.status === 500) {
         alert("Something went wrong, please try again")
       }
