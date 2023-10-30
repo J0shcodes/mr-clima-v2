@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const NEXT_PUBLIC_ACCUWEATHER_API_KEY =
   process.env.NEXT_PUBLIC_ACCUWEATHER_API_KEY;

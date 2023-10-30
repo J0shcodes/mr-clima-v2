@@ -1,17 +1,16 @@
 const getImageName = (): string => {
   let imageNameArray: string[] = [];
 
-  const weatherInfo = JSON.parse(
-    window.localStorage.getItem("weatherInfo") || "{}"
-  );
+  const weatherText = 
+    window.localStorage.getItem("weatherText") ;
 
-  console.log(weatherInfo)
+  console.log(weatherText)
 
   if (
-    weatherInfo.WeatherText === "Cloudy" ||
-    weatherInfo.WeatherText === "Mostly cloudy" ||
-    weatherInfo.WeatherText === "Partly cloudy" ||
-    weatherInfo.WeatherText === "Some clouds"
+    weatherText === "Cloudy" ||
+    weatherText === "Mostly cloudy" ||
+    weatherText === "Partly cloudy" ||
+    weatherText === "Some clouds"
   ) {
     imageNameArray = [
       "cloudy/cloudy-1",
@@ -22,7 +21,7 @@ const getImageName = (): string => {
     ];
   }
 
-  if (weatherInfo.WeatherText === "Rainy" || weatherInfo.WeatherText === "Light rain") {
+  if (weatherText=== "Rainy" || weatherText === "Light rain") {
     imageNameArray = [
       "raindrops/raindrops-1",
       "raindrops/raindrops-2",
@@ -33,8 +32,8 @@ const getImageName = (): string => {
   }
 
   if (
-    weatherInfo.WeatherText === "Sunny" ||
-    weatherInfo.WeatherText === "Partly sunny"
+    weatherText === "Sunny" ||
+    weatherText === "Partly sunny"
   ) {
     imageNameArray = [
       "sunshine/sunshine-1",
@@ -45,7 +44,7 @@ const getImageName = (): string => {
     ];
   }
 
-  if (weatherInfo.WeatherText === "Snow") {
+  if (weatherText === "Snow") {
     imageNameArray = [
       "snowing/snowing-1",
       "snowing/snowing-2",
@@ -55,7 +54,7 @@ const getImageName = (): string => {
     ];
   }
 
-  if (weatherInfo.WeatherText === "Mist") {
+  if (weatherText === "Mist") {
     imageNameArray = [
       "misty/misty-1",
       "misty/misty-2",
@@ -65,7 +64,7 @@ const getImageName = (): string => {
     ];
   }
 
-  if (weatherInfo.WeatherText === "Thunderstorm") {
+  if (weatherText === "Thunderstorm") {
     imageNameArray = [
       "thunderstorm/thunderstorm-1",
       "thunderstorm/thunderstorm-2",
@@ -75,7 +74,7 @@ const getImageName = (): string => {
     ];
   }
 
-  if (weatherInfo.WeatherText === "Overcast") {
+  if (weatherText === "Overcast") {
     imageNameArray = [
       "overcast/overcast-1",
       "overcast/overcast-2",
