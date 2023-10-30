@@ -84,6 +84,16 @@ const getImageName = (): string => {
     ];
   }
 
+  if (weatherText === "Thundershower") {
+    imageNameArray = [
+      "thundershower/thundershower-1",
+      "thundershower/thundershower-2",
+      "thundershower/thundershower-3",
+      "thundershower/thundershower-4",
+      "thundershower/thundershower-5",
+    ];
+  }
+
   const imageNameIndex = Math.floor(Math.random() * imageNameArray.length);
   return `/images/${imageNameArray[imageNameIndex]}.jpg`;
 };

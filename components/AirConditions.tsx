@@ -1,19 +1,15 @@
-import { useState, useEffect } from "react";
+import { FC } from "react";
 
 import { FaThermometerThreeQuarters } from "react-icons/fa";
 import { FaWind } from "react-icons/fa";
 import { BsDroplet } from "react-icons/bs";
 import { PiSunLight } from "react-icons/pi";
 
-const AirConditions = () => {
-  const [weatherInfo, setWeatherInfo] = useState<any>();
+interface AirConditionsProps {
+  weatherInfo: any
+}
 
-  useEffect(() => {
-    const weatherInfo = JSON.parse(
-      window.localStorage.getItem("weatherInfo") || "{}"
-    );
-    setWeatherInfo(weatherInfo);
-  }, [setWeatherInfo]);
+const AirConditions: FC<AirConditionsProps> = ({weatherInfo}) => {
 
   return (
     <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[29.375rem] md:h-fit shadow-3xl rounded-2xl row-span-4 py-8 md:py-6 px-4 md:mt-3">

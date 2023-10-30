@@ -13,6 +13,7 @@ import { PiSunLight } from "react-icons/pi";
 import { config } from "dotenv";
 import { ToastContainer, toast } from "react-toastify";
 import getLocationKey from "@/helper/LocationKey";
+import { FaSearch } from "react-icons/fa";
 
 import fetchWeatherInfo from "../api/weatherInfo";
 import axios from "axios";
@@ -45,12 +46,28 @@ const WeatherVisuals: FC<WeatherVisualProps> = ({ lat, long }) => {
   >([]);
   const [location, setLocation] = useState<string>("");
   const [locationKey, setLocationKey] = useState<string>();
+  const [searchedlocation, setSearchedLocation] = useState<string>("");
 
   const NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN =
     process.env.NEXT_PUBLIC_LOCATION_IQ_ACCESS_TOKEN;
   const NEXT_PUBLIC_ACCUWEATHER_API_KEY =
     process.env.NEXT_PUBLIC_ACCUWEATHER_API_KEY;
-  const NEXT_PUBLIC_TOMORROW_API_KEY = process.env.NEXT_PUBLIC_TOMORROW_API_KEY;
+
+  const handleLocationSearch = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    console.log(searchedlocation);
+    const arrSearchedLocation = searchedlocation.split(" ");
+    for (let i = 0; i < arrSearchedLocation.length; i++) {
+      arrSearchedLocation[i] =
+        arrSearchedLocation[i].charAt(0).toUpperCase() +
+        arrSearchedLocation[i].slice(1);
+    }
+
+    const capSearchedLocation = arrSearchedLocation.join(" ");
+    // window.localStorage.setItem("weatherInfo", JSON.stringify());
+    fetchWeatherInfo(capSearchedLocation);
+    // window.location.reload();
+  };
 
   const getUserLocation = useCallback(async () => {
     if (lat && long) {
@@ -117,11 +134,22 @@ const WeatherVisuals: FC<WeatherVisualProps> = ({ lat, long }) => {
       await getUserLocation();
     };
 
-    // callWeatherDataFunctions();
+    callWeatherDataFunctions();
   }, [getUserLocation]);
 
   return (
     <div className="px-12 md:px-4">
+      <form className="relative mb-8 md:mt-2 text-center" onSubmit={handleLocationSearch}>
+        <div className="text-[#6b6969] absolute left-[28.5rem] top-1 w-fit">
+          <FaSearch size={35} />
+        </div>
+        <input
+          type="search"
+          placeholder="Search location e.g New York"
+          className="rounded-xl pl-16 pr-5 py-2 w-[31.25rem] md:w-[25rem] sm:w-[18rem] bg-[#d9d9d9] text-lg text-[#6b6969] outline-none"
+          onChange={(e) => setSearchedLocation(e.target.value)}
+        />
+      </form>
       <div className="px-4">
         {userLocation ? (
           <div className="flex text-lg">
@@ -192,8 +220,8 @@ const WeatherVisuals: FC<WeatherVisualProps> = ({ lat, long }) => {
             </div>
           </div>
         </div>
-        {/* <Forecast/> */}
-        {/* <AirConditions/> */}
+        <Forecast userLocation={userLocation} />
+        <AirConditions weatherInfo={weatherInfo} />
       </div>
     </div>
   );

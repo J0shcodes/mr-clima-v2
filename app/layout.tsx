@@ -32,7 +32,7 @@ export default function RootLayout({
         style={{
           backgroundImage: `url(${imageName})`,
         }}
-        className={`${inter.className} bg-center bg-cover bg-no-repeat lg:h-screen w-screen`}
+        className={`${inter.className} bg-center bg-cover bg-no-repeat lg:h-screen`}
       >
         <HeaderComponents />
         <div>{children}</div>

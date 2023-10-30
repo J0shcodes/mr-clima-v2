@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import Image from "next/image";
 import { CiClock2 } from "react-icons/ci";
 
@@ -6,13 +6,11 @@ import getWeatherForecast from "@/api/Forecast";
 import getForecastTimeArray from "@/helper/ForecastTime";
 import getMetricTemperatureArray from "@/helper/MetricTemperature";
 
-// const locationName = window.localStorage.getItem("userState");
-// const forecast: any[] = JSON.parse(
-//   window.localStorage.getItem("Forecast") || "[]"
-// );
-// console.log(forecast, locationName);
+interface ForecastProps {
+  userLocation: string
+}
 
-const Forecast = () => {
+const Forecast: FC<ForecastProps> = ({userLocation}) => {
   const [forecasts, setForecasts] = useState<any[] | undefined>([]);
   const [forecastTimeArray, setForecastTimeArray] = useState<string[]>([]);
   const [metricTemperatureArray, setMetricTemperatureArray] = useState<
@@ -20,19 +18,14 @@ const Forecast = () => {
   >([]);
 
   useEffect(() => {
-    const locationName = JSON.parse(window.localStorage.getItem("location") || "");
-    console.log(locationName)
-    const forecast: any[] = JSON.parse(
-      window.localStorage.getItem("Forecast") || "[]"
-    );
-    console.log(forecast, locationName);
     
     const callForecastData = async () => {
-      if (locationName) {
-        const forecastData = await getWeatherForecast(locationName);
+      if (userLocation) {
+        const forecastData = await getWeatherForecast(userLocation);
         let slicedForecastData = [];
         if (forecastData) {
           slicedForecastData = forecastData.slice(0, 6);
+          console.log(slicedForecastData)
           setForecasts(slicedForecastData);
           const forecastTimeArray = getForecastTimeArray(slicedForecastData);
           setForecastTimeArray(forecastTimeArray);
@@ -44,8 +37,8 @@ const Forecast = () => {
       }
     };
 
-    // callForecastData()
-  }, []);
+    callForecastData()
+  }, [userLocation]);
   return (
     <div className="bg-[rgba(39,39,39,0.1)] backdrop-blur-[40px] border border-solid border-[rgba(255,255,255,0.2)] h-[11.875rem] row-span-2 shadow-3xl rounded-2xl py-6 px-14 md:mb-3">
       <div className="flex justify-between w-[9.375rem]">
