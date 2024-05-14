@@ -1,0 +1,11 @@
+{
+    "name": "Mr.Climav2",
+    "short_name": "Mr.Clima",
+    "description": "Mr.Clima is a weather app offering current conditions, forecasts, and location search. It stands out with historical comparisons, personalized daily summaries as notifications, and customizable weather alerts.",
+    "theme_color": "#FFFFFF",
+    "background_color": "#FFFFFF",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait"
+  }
+  
