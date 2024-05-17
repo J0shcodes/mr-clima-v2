@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
     manifest: "/manifest.json",
-    title: "Your daily weather, personalized",
+    title: "Mr. Clima v2",
     description:
         "Mr.Clima is a weather app offering current conditions, forecasts, and location search. It stands out with historical comparisons, personalized daily summaries as notifications, and customizable weather alerts.",
 }

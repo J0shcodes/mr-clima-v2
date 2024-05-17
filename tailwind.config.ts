@@ -13,6 +13,21 @@ const config: Config = {
                 "gradient-conic":
                     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
             },
+            animation: {
+                flicker: "flicker 0.5s ease-in-out infinite alternate",
+            },
+            keyframes: {
+                flicker: {
+                    "0%": {
+                        opacity: "0.5",
+                        textShadow: "2px 2px 10px #2962ff",
+                    },
+                    "100%": {
+                        opacity: "1",
+                        textShadow: "2px 2px 20px #2962ff",
+                    },
+                },
+            },
         },
     },
     plugins: [],
