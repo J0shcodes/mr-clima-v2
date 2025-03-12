@@ -14,7 +14,7 @@ export default function Home() {
                 </h1>
                 <button
                     className="w-56 rounded-lg bg-blue-500 py-3 text-lg"
-                    onClick={() => router.push("/auth/login")}
+                    onClick={() => router.push("/auth/signin")}
                 >
                     Get Started
                 </button>
