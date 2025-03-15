@@ -5,9 +5,21 @@ import { IoIosNotificationsOutline } from "react-icons/io"
 import { CiLocationOn } from "react-icons/ci"
 import { AiOutlineSearch } from "react-icons/ai"
 import { BsBrightnessHighFill } from "react-icons/bs"
+
+import { removeSession } from "@/actions/auth-actions"
+import { useUserSession } from "@/hooks/useUserSession"
+import { useAuth } from "@/context/AuthUserContext"
 // import { BsBrightnessHigh } from "react-icons/bs";
 
-const Header = () => {
+const Header = ({ session }: { session: string | null }) => {
+    const userSessionId = useUserSession(session)
+    const { signOut } = useAuth()
+
+    const handleSignOut = async () => {
+        signOut()
+        await removeSession()
+    }
+
     return (
         <div className="flex justify-between px-6 py-[1.625rem] text-[#222d3e]">
             <section className="flex w-[35%] flex-col justify-center">
@@ -44,7 +56,14 @@ const Header = () => {
                         <p className="text-white">Dark</p>
                     </div>
                 </div>
-                <div className="my-auto">Welcome Jane Doe</div>
+                <div className="my-auto text-sm">Welcome Jane Doe</div>
+                {!userSessionId ? (
+                    <Link href="/auth/signin">Sign In</Link>
+                ) : (
+                    <button className="text-sm" onClick={handleSignOut}>
+                        Sign Out
+                    </button>
+                )}
             </section>
         </div>
     )

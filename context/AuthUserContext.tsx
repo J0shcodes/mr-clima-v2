@@ -7,21 +7,29 @@ import { AuthUser } from "@/types"
 const authUserContext = createContext<{
     authUser: AuthUser | null
     loading: boolean
-    // signInWithEmailAndPassword: (
-    //     email: string,
-    //     password: string,
-    // ) => Promise<UserCredential>
-    // createUserWithEmailAndPassword: (
-    //     email: string,
-    //     password: string,
-    // ) => Promise<UserCredential>
-    // signOut: () => Promise<void>
+    signInWithEmailAndPassword: (
+        email: string,
+        password: string,
+    ) => Promise<string | undefined>
+    createUserWithEmailAndPassword: (
+        email: string,
+        password: string,
+    ) => Promise<string | undefined>
+    signOut: () => Promise<void>
+    signInWithGoogle: () => Promise<string | undefined>
 }>({
     authUser: null,
     loading: true,
-    // signInWithEmailAndPassword: async () => {},
-    // createUserWithEmailAndPassword: async () => {},
-    // signOut: async () => {},
+    signInWithEmailAndPassword: async () => {
+        return undefined
+    },
+    createUserWithEmailAndPassword: async () => {
+        return undefined
+    },
+    signOut: async () => {},
+    signInWithGoogle: async () => {
+        return undefined
+    },
 })
 
 export function AuthUserProvider({

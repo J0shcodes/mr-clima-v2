@@ -5,6 +5,8 @@ import {
     createUserWithEmailAndPassword as _createUserWithEmailAndPassword,
     signInWithEmailAndPassword as _signInWithEmailAndPassword,
     signOut as _signOut,
+    GoogleAuthProvider,
+    signInWithPopup,
 } from "firebase/auth"
 
 import { firebaseAuth } from "../libs/firebase/config"
@@ -13,6 +15,7 @@ import { AuthUser } from "@/types"
 const formatAuthUser = (user: User): AuthUser => ({
     uid: user.uid,
     email: user.email,
+    name: user.displayName,
 })
 
 export default function useFirebaseAuth() {
@@ -39,11 +42,60 @@ export default function useFirebaseAuth() {
         setLoading(true)
     }
 
-    const signInWithEmailAndPassword = (email: string, password: string) =>
-        _signInWithEmailAndPassword(firebaseAuth, email, password)
+    const signInWithEmailAndPassword = async (
+        email: string,
+        password: string,
+    ) => {
+        try {
+            const result = await _signInWithEmailAndPassword(
+                firebaseAuth,
+                email,
+                password,
+            )
 
-    const createUserWithEmailAndPassword = (email: string, password: string) =>
-        _createUserWithEmailAndPassword(firebaseAuth, email, password)
+            if (!result || !result.user) {
+                throw new Error("Failed to signin")
+            }
+            return result.user.uid
+        } catch (error) {
+            console.error("Error signing. Email or password incorrect", error)
+        }
+    }
+
+    const createUserWithEmailAndPassword = async (
+        email: string,
+        password: string,
+    ) => {
+        try {
+            const result = await _createUserWithEmailAndPassword(
+                firebaseAuth,
+                email,
+                password,
+            )
+
+            if (!result || !result.user) {
+                throw new Error("Failed to create an account")
+            }
+            return result.user.uid
+        } catch (error) {
+            console.error("Error creating an account. Try again", error)
+        }
+    }
+
+    const signInWithGoogle = async () => {
+        const provider = new GoogleAuthProvider()
+
+        try {
+            const result = await signInWithPopup(firebaseAuth, provider)
+
+            if (!result || !result.user) {
+                throw new Error("Google sign in failed")
+            }
+            return result.user.uid
+        } catch (error) {
+            console.error("Error signing in with google", error)
+        }
+    }
 
     const signOut = () => _signOut(firebaseAuth).then(clear)
 
@@ -62,5 +114,6 @@ export default function useFirebaseAuth() {
         signInWithEmailAndPassword,
         createUserWithEmailAndPassword,
         signOut,
+        signInWithGoogle,
     }
 }

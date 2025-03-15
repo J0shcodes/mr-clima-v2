@@ -1,16 +1,14 @@
 "use client"
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
 import { useAuth } from "@/context/AuthUserContext"
 
 const Dashboard = () => {
     const { authUser, loading } = useAuth()
-    const router = useRouter()
+    // const router = useRouter()
 
-    useEffect(() => {
-        if (!authUser) router.push("/auth/signin")
-    }, [authUser, router])
+    // useEffect(() => {
+    //     if (!authUser) router.push("/auth/signin")
+    // }, [authUser, router])
 
     return (
         <div className="w-[100%] px-6 text-[#222d3e]">

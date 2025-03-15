@@ -3,6 +3,8 @@ import {
     GoogleAuthProvider,
     signInWithPopup,
     onAuthStateChanged as _onAuthStateChanged,
+    signInWithEmailAndPassword as _signInWithEmailAndPassword,
+    createUserWithEmailAndPassword as _createUserWithEmailAndPassword,
 } from "firebase/auth"
 
 import { firebaseAuth } from "./config"
@@ -26,7 +28,15 @@ export async function signInWithGoogle() {
     }
 }
 
-export async function signOutWithGoogle() {
+export const signInWithEmailAndPassword = (email: string, password: string) =>
+    _signInWithEmailAndPassword(firebaseAuth, email, password)
+
+export const createUserWithEmailAndPassword = (
+    email: string,
+    password: string,
+) => _createUserWithEmailAndPassword(firebaseAuth, email, password)
+
+export async function signOut() {
     try {
         await firebaseAuth.signOut()
     } catch (error) {
