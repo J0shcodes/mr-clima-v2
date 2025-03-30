@@ -1,19 +1,21 @@
 "use client"
 
 import Link from "next/link"
-import { IoIosNotificationsOutline } from "react-icons/io"
+// import { IoIosNotificationsOutline } from "react-icons/io"
 import { CiLocationOn } from "react-icons/ci"
 import { AiOutlineSearch } from "react-icons/ai"
-import { BsBrightnessHighFill } from "react-icons/bs"
+import { BsBrightnessHighFill, BsBrightnessHigh } from "react-icons/bs"
 
 import { removeSession } from "@/actions/auth-actions"
 import { useUserSession } from "@/hooks/useUserSession"
 import { useAuth } from "@/context/AuthUserContext"
+import { useThemeContext } from "@/context/ThemeContext"
 // import { BsBrightnessHigh } from "react-icons/bs";
 
 const Header = ({ session }: { session: string | null }) => {
     const userSessionId = useUserSession(session)
     const { signOut } = useAuth()
+    const { isDarkTheme, toggleThemeHandler } = useThemeContext()
 
     const handleSignOut = async () => {
         signOut()
@@ -21,8 +23,8 @@ const Header = ({ session }: { session: string | null }) => {
     }
 
     return (
-        <div className="flex justify-between px-6 py-[1.625rem] text-[#222d3e]">
-            <section className="flex w-[35%] flex-col justify-center">
+        <div className="flex justify-between rounded-xl bg-white px-6 py-4 text-[#222d3e] dark:bg-background-dark dark:text-text-dark">
+            <section className="flex w-[20%] flex-col justify-center">
                 <div className="flex justify-between">
                     <Link
                         href="/dashboard"
@@ -30,10 +32,14 @@ const Header = ({ session }: { session: string | null }) => {
                     >
                         Mr. Clima v2
                     </Link>
-                    <IoIosNotificationsOutline />
-                    <div className="flex justify-between">
-                        <CiLocationOn />
-                        <p>User Location</p>
+                    {/* <IoIosNotificationsOutline /> */}
+                    <div className="flex flex-col justify-center">
+                        <div className="flex justify-between">
+                            <div className="">
+                                <CiLocationOn />
+                            </div>
+                            <p className="text-sm">User Location</p>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -44,18 +50,29 @@ const Header = ({ session }: { session: string | null }) => {
                     </div>
                     <input
                         type="text"
-                        className="w-full rounded-md border border-solid border-[#c8cbd0] px-[3.9375rem] py-3 text-sm outline-none"
+                        className="w-full rounded-md border border-solid border-[#c8cbd0] px-[3.9375rem] py-3 text-sm outline-none dark:bg-transparent"
                         placeholder="Search Location"
                     />
                 </div>
             </section>
-            <section className="flex w-[15%] justify-between">
-                <div className="flex w-[100px] cursor-pointer flex-col justify-center rounded-md bg-[#0c182a] px-4">
+            <section className="flex w-[20%] justify-between">
+                <button
+                    className="flex w-[100px] cursor-pointer flex-col justify-center rounded-md bg-background-dark px-4 dark:bg-white"
+                    onClick={toggleThemeHandler}
+                >
                     <div className="flex justify-between">
-                        <BsBrightnessHighFill color="white" />
-                        <p className="text-white">Dark</p>
+                        <div className="flex flex-col justify-center">
+                            {isDarkTheme ? (
+                                <BsBrightnessHighFill color="black" />
+                            ) : (
+                                <BsBrightnessHigh color="white" />
+                            )}
+                        </div>
+                        <p className="font-semibold text-white dark:text-[#262630]">
+                            {isDarkTheme ? "Light" : "Dark"}
+                        </p>
                     </div>
-                </div>
+                </button>
                 <div className="my-auto text-sm">Welcome Jane Doe</div>
                 {!userSessionId ? (
                     <Link href="/auth/signin">Sign In</Link>

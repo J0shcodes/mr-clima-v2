@@ -6,8 +6,18 @@ const config: Config = {
         "./components/**/*.{js,ts,jsx,tsx,mdx}",
         "./app/**/*.{js,ts,jsx,tsx,mdx}",
     ],
+    darkMode: "class",
     theme: {
         extend: {
+            colors: {
+                background: {
+                    default: "#ffffff",
+                    dark: "#0c101c",
+                },
+                text: {
+                    dark: "#b2bac7",
+                },
+            },
             backgroundImage: {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
                 "gradient-conic":

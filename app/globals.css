@@ -21,6 +21,10 @@ body {
     background: #eef4f6;
 }
 
+.dark {
+    background: #13182b;
+}
+
 .title {
     -webkit-text-stroke: #fff;
     -webkit-text-stroke-width: 1px;

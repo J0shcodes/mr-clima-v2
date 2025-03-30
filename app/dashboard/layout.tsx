@@ -8,7 +8,7 @@ export default function DashboardLayout({
 }: Readonly<{ children: React.ReactNode }>) {
     const session = cookies().get(SESSION_COOKIE_NAME)?.value || null
     return (
-        <div>
+        <div className="flex h-screen flex-col space-y-6 px-6 py-9">
             <Header session={session} />
             {children}
         </div>
