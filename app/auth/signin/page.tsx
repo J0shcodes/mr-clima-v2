@@ -75,7 +75,7 @@ const Login = () => {
     }
 
     return (
-        <div className="flex h-screen flex-col items-center justify-center bg-[url('/assets/images/cloudy-4.jpg')] bg-cover bg-center bg-no-repeat">
+        <div className="flex h-screen flex-col items-center justify-center bg-[url('/assets/images/cloudy-4.jpg')] bg-cover bg-center bg-no-repeat text-white">
             <div className="rounded-lg bg-[rgba(4,51,69,0.2)] px-5 py-10 shadow-lg backdrop-blur-[10px] md:px-10 md:py-20">
                 <h1 className="mb-8 text-4xl font-bold">Sign In</h1>
                 <form

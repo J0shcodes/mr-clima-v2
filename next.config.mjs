@@ -15,6 +15,13 @@ const withPWA = withPWAInit({
         document: "/~offline",
     },
 })
-const nextConfig = {}
+const nextConfig = {
+    // images: {
+    //     remotePatterns: [new URL("https://cdn.worldweatheronline.com/**")],
+    // },
+    images: {
+        domains: ["cdn.worldweatheronline.com"],
+    },
+}
 
 export default withPWA(nextConfig)

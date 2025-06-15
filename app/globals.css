@@ -17,8 +17,8 @@
 }
 
 body {
-    color: rgb(var(--foreground-rgb));
-    background: #eef4f6;
+    /* color: rgb(var(--foreground-rgb)); */
+    /* background: #eef4f6; */
 }
 
 .dark {

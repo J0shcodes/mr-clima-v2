@@ -3,7 +3,10 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 
 import { AuthUserProvider } from "@/context/AuthUserContext"
-import { ThemeProvider } from "@/context/ThemeContext"
+// import { ThemeProvider } from "@/context/ThemeContext"
+import { LocationContextProvider } from "@/context/LocationContext"
+import { ClimaGlobalContextProvider } from "@/context/ClimaGlobalContext"
+import { WeatherDataContextProvider } from "@/context/WeatherDataContext"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -21,11 +24,19 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <ThemeProvider>
+            <ClimaGlobalContextProvider>
+                {/* <ThemeProvider> */}
                 <AuthUserProvider>
-                    <body className={`${inter.className}`}>{children}</body>
+                    <LocationContextProvider>
+                        <WeatherDataContextProvider>
+                            <body className={`${inter.className}`}>
+                                {children}
+                            </body>
+                        </WeatherDataContextProvider>
+                    </LocationContextProvider>
                 </AuthUserProvider>
-            </ThemeProvider>
+                {/* </ThemeProvider> */}
+            </ClimaGlobalContextProvider>
         </html>
     )
 }

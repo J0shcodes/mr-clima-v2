@@ -13,7 +13,7 @@ export default function Home() {
                     Mr. Clima v2
                 </h1>
                 <button
-                    className="w-56 rounded-lg bg-blue-500 py-3 text-lg"
+                    className="w-56 rounded-lg bg-blue-500 py-3 text-lg text-white"
                     onClick={() => router.push("/auth/signin")}
                 >
                     Get Started
