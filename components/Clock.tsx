@@ -28,7 +28,11 @@ const Clock = () => {
         }
     }, [])
 
-    return <div className=" flex self-center text-sm font-medium">{time}</div>
+    return (
+        <div className=" flex self-center text-sm font-medium text-white">
+            {time}
+        </div>
+    )
 }
 
 export default Clock

@@ -11,15 +11,6 @@ const firebaseConfig = {
     appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-// Object.keys(firebaseConfig).forEach((key) => {
-//     const configValue = firebaseConfig[key] + ""
-//     if (configValue.charAt(0) === '"') {
-//         firebaseConfig[key] = configValue.substring(1, configValue.length - 1)
-//     }
-// })
-
-// export const firebaseCredentials = firebaseConfig
-
 const firebaseApp =
     getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0]
 

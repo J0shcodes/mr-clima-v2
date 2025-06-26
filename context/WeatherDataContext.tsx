@@ -24,8 +24,6 @@ const WeatherDataContext = createContext<{
     setDailyWeatherData: Dispatch<SetStateAction<DailyWeatherData[] | null>>
     hourlyWeatherData: HourlyWeatherData[] | null
     setHourlyWeatherData: Dispatch<SetStateAction<HourlyWeatherData[] | null>>
-    // forecastWeatherData: any | null
-    // setForecastWeatherData: Dispatch<SetStateAction<any | null>>
     error: string | null
     setError: Dispatch<SetStateAction<string | null>>
 }>({
@@ -35,13 +33,9 @@ const WeatherDataContext = createContext<{
     setDailyWeatherData: () => null,
     hourlyWeatherData: null,
     setHourlyWeatherData: () => null,
-    // forecastWeatherData: null,
-    // setForecastWeatherData: () => null,
     error: null,
     setError: () => {},
 })
-
-// const WeatherStack
 
 export const WeatherDataContextProvider = ({
     children,
@@ -54,9 +48,6 @@ export const WeatherDataContextProvider = ({
     const [hourlyWeatherData, setHourlyWeatherData] = useState<
         HourlyWeatherData[] | null
     >(null)
-    // const [forecastWeatherData, setForecastWeatherData] = useState<any | null>(
-    //     null,
-    // )
     const [error, setError] = useState<string | null>(null)
 
     const lastFetchedCoords = useRef<{
@@ -65,17 +56,9 @@ export const WeatherDataContextProvider = ({
     }>({ lat: null, lon: null })
 
     const { userLocation, coordinates } = useLocationContext()
-
-    // const baseUrl = "https://api.weatherstack.com/"
     const baseUrl = "https://api.openweathermap.org/"
 
     const fetchWeatherData = useCallback(async (lat?: number, lng?: number) => {
-        // const locationQuery = lat && lng ? `${lat},${lng}` : location
-        // const userCity = userLocation.split(", ")[0]
-
-        // const endpoint = `${baseUrl}current?access_key=${process.env.NEXT_PUBLIC_WEATHER_STACK_API_KEY}&query=${locationQuery}`
-        // const endpoint2 = `${baseUrl}forecast?access_key=${process.env.NEXT_WEATHER_STACK_API_KEY}&query=${userCity}`
-
         const endpoint = `${baseUrl}data/3.0/onecall?lat=${lat}&lon=${lng}&units=metric&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`
 
         try {
@@ -87,14 +70,11 @@ export const WeatherDataContextProvider = ({
 
             const weatherReport: WeatherData = await response.json()
 
-            console.log("current weather:", weatherReport)
-
             const currentWeatherReport = weatherReport.current
 
             setCurrentWeatherData(currentWeatherReport)
             setHourlyWeatherData(weatherReport.hourly)
             setDailyWeatherData(weatherReport.daily)
-            // setForecastWeatherData(weatherForecastReport)
 
             setError(null)
         } catch (error) {
@@ -105,7 +85,6 @@ export const WeatherDataContextProvider = ({
     }, [])
 
     useEffect(() => {
-        console.log(coordinates)
         if (coordinates) {
             const { latitude, longitude } = coordinates
 
@@ -117,12 +96,9 @@ export const WeatherDataContextProvider = ({
             }
 
             lastFetchedCoords.current = { lat: latitude, lon: longitude }
-            // const userCity = userLocation.split(", ")[0]
+
             fetchWeatherData(latitude, longitude)
         } else {
-            console.log("Aborting...")
-            // setCurrentWeatherData(null)
-            // setForecastWeatherData(null)
             return
         }
     }, [userLocation, coordinates, fetchWeatherData])
@@ -136,8 +112,6 @@ export const WeatherDataContextProvider = ({
                 setDailyWeatherData,
                 hourlyWeatherData,
                 setHourlyWeatherData,
-                // forecastWeatherData,
-                // setForecastWeatherData,
                 error,
                 setError,
             }}

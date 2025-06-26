@@ -36,7 +36,6 @@ const ResponsiveHeader = ({ session }: { session: string | null }) => {
     useEffect(() => {
         if (!coordinates) return
         const { latitude, longitude } = coordinates
-        console.log(latitude, longitude)
 
         // Prevent redundant API calls if location hasn't changed significantly
         if (

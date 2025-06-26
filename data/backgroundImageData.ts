@@ -1,0 +1,51 @@
+export const backgroundImageData = {
+    clouds: [
+        "https://images.pexels.com/photos/907485/pexels-photo-907485.jpeg",
+        "https://images.pexels.com/photos/391522/pexels-photo-391522.jpeg",
+        "https://images.pexels.com/photos/416920/pexels-photo-416920.jpeg",
+        "https://images.pexels.com/photos/1227513/pexels-photo-1227513.jpeg",
+        "https://images.pexels.com/photos/158827/field-corn-air-frisch-158827.jpeg",
+    ],
+    rain: [
+        "https://images.pexels.com/photos/459451/pexels-photo-459451.jpeg",
+        "https://images.pexels.com/photos/125510/pexels-photo-125510.jpeg",
+        "https://images.pexels.com/photos/913807/pexels-photo-913807.jpeg",
+        "https://images.pexels.com/photos/243971/pexels-photo-243971.jpeg",
+        "https://images.pexels.com/photos/725876/pexels-photo-725876.jpeg",
+    ],
+    sunshine: [
+        "https://images.pexels.com/photos/1198507/pexels-photo-1198507.jpeg",
+        "https://images.pexels.com/photos/1149405/pexels-photo-1149405.jpeg",
+        "https://images.pexels.com/photos/1117403/pexels-photo-1117403.jpeg",
+        "https://images.pexels.com/photos/3590/nature-sky-sunny-clouds.jpg",
+        "https://images.pexels.com/photos/674475/pexels-photo-674475.jpeg",
+    ],
+    snow: [
+        "https://images.pexels.com/photos/7245519/pexels-photo-7245519.jpeg",
+        "https://images.pexels.com/photos/688660/pexels-photo-688660.jpeg",
+        "https://images.pexels.com/photos/300857/pexels-photo-300857.jpeg",
+        "https://images.pexels.com/photos/754268/pexels-photo-754268.jpeg",
+        "https://images.pexels.com/photos/179845/pexels-photo-179845.jpeg",
+    ],
+    thunder: [
+        "https://images.pexels.com/photos/1114688/pexels-photo-1114688.jpeg",
+        "https://images.pexels.com/photos/1102915/pexels-photo-1102915.jpeg",
+        "https://images.pexels.com/photos/33150/flash-thunderstorm-flash-of-lightning-black.jpg",
+        "https://images.pexels.com/photos/2226190/pexels-photo-2226190.jpeg",
+        "https://images.pexels.com/photos/167755/pexels-photo-167755.jpeg",
+    ],
+    haze: [
+        "https://images.pexels.com/photos/1367192/pexels-photo-1367192.jpeg",
+        "https://images.pexels.com/photos/691574/pexels-photo-691574.jpeg",
+        "https://images.pexels.com/photos/6494663/pexels-photo-6494663.jpeg",
+        "https://images.pexels.com/photos/2291039/pexels-photo-2291039.jpeg",
+        "https://images.pexels.com/photos/1776273/pexels-photo-1776273.jpeg",
+    ],
+    clear: [
+        "https://images.pexels.com/photos/1049298/pexels-photo-1049298.jpeg",
+        "https://images.pexels.com/photos/32720406/pexels-photo-32720406.jpeg",
+        "https://images.pexels.com/photos/955855/pexels-photo-955855.jpeg",
+        "https://images.pexels.com/photos/952842/pexels-photo-952842.jpeg",
+        "https://images.pexels.com/photos/2889381/pexels-photo-2889381.jpeg",
+    ],
+}

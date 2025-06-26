@@ -40,42 +40,6 @@ const DailyForecast = () => {
                                 <div>{dailyData.weather[0].description}</div>
                             </div>
                         ))}
-                        {/* <div className="">
-                            <div className="">
-                                <p>Monday</p>
-                                <p>26&deg;C</p>
-                            </div>
-                            <div className="">
-                                <p>Sunny</p>
-                            </div>
-                        </div>
-                        <div className="">
-                            <div className="">
-                                <p>Tuesday</p>
-                                <p>28&deg;C</p>
-                            </div>
-                            <div className="">
-                                <p>Partly Cloudy</p>
-                            </div>
-                        </div>
-                        <div className="">
-                            <div className="">
-                                <p>Tuesday</p>
-                                <p>28&deg;C</p>
-                            </div>
-                            <div className="">
-                                <p>Partly Cloudy</p>
-                            </div>
-                        </div>
-                        <div className="">
-                            <div className="">
-                                <p>Tuesday</p>
-                                <p>28&deg;C</p>
-                            </div>
-                            <div className="">
-                                <p>Partly Cloudy</p>
-                            </div>
-                        </div> */}
                     </div>
                 </div>
             </div>

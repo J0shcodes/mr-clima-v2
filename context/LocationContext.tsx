@@ -13,12 +13,16 @@ const LocationContext = createContext<{
     coordinates: { latitude: number; longitude: number } | null
     userLocation: string
     setUserLocation: Dispatch<SetStateAction<string>>
+    userLocationName: string
+    setUserLocationName: Dispatch<SetStateAction<string>>
     error: string | null
 }>({
     coordinates: null,
     error: null,
     userLocation: "",
     setUserLocation: () => {},
+    userLocationName: "",
+    setUserLocationName: () => {},
 })
 
 export const LocationContextProvider = ({
@@ -28,7 +32,8 @@ export const LocationContextProvider = ({
         latitude: number
         longitude: number
     } | null>(null)
-    const [userLocation, setUserLocation] = useState("")
+    const [userLocation, setUserLocation] = useState<string>("")
+    const [userLocationName, setUserLocationName] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
@@ -38,7 +43,6 @@ export const LocationContextProvider = ({
             watchId = navigator.geolocation.watchPosition(
                 (position) => {
                     const { latitude, longitude } = position.coords
-                    console.log(latitude, longitude)
                     setCoordinates({ latitude, longitude })
                 },
                 (err) => {
@@ -81,7 +85,14 @@ export const LocationContextProvider = ({
 
     return (
         <LocationContext.Provider
-            value={{ coordinates, error, userLocation, setUserLocation }}
+            value={{
+                coordinates,
+                error,
+                userLocation,
+                setUserLocation,
+                userLocationName,
+                setUserLocationName,
+            }}
         >
             {children}
         </LocationContext.Provider>

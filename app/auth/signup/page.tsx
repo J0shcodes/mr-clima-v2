@@ -25,7 +25,6 @@ const Signup = () => {
     const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!regex.test(e.target.value)) {
             setEmailError("Invalid email")
-            console.log(emailError)
             return
         }
         setEmailError(null)
@@ -56,7 +55,6 @@ const Signup = () => {
         if (confirmPassword === password && !passwordError && !emailError) {
             setLoading(true)
             setConfirmPasswordError(null)
-            console.log(email, password, confirmPassword)
             try {
                 const userUid = await createUserWithEmailAndPassword(
                     email,
