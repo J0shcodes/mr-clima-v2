@@ -49,7 +49,7 @@ const Header = ({ session }: { session: string | null }) => {
     }> => {
         try {
             const response = await fetch(
-                `http://api.openweathermap.org/geo/1.0/direct?q=${capitalizeSearchInput(searchInput)}&limit=1&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`,
+                `https://api.openweathermap.org/geo/1.0/direct?q=${capitalizeSearchInput(searchInput)}&limit=1&appid=${process.env.NEXT_PUBLIC_OPEN_WEATHER_API_KEY}`,
             )
 
             if (!response.ok)
