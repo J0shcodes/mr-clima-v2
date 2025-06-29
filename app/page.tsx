@@ -7,7 +7,7 @@ export default function Home() {
     return (
         <main className="flex h-screen flex-col items-center justify-center bg-[url('/assets/images/raindrops.jpg')] bg-cover bg-center bg-no-repeat">
             <div className="flex flex-col items-center p-4">
-                <h1 className="title mb-14 animate-flicker text-5xl font-bold uppercase italic text-transparent transition-all duration-500 ease-in-out hover:text-white">
+                <h1 className="title mb-14 animate-flicker text-4xl font-bold uppercase italic text-transparent transition-all duration-500 ease-in-out hover:text-white md:text-5xl">
                     Mr. Clima v2
                 </h1>
                 <button
