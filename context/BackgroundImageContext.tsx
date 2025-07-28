@@ -24,6 +24,7 @@ export const BackgroundImageContextProvider = ({
     children,
 }: Readonly<{ children: React.ReactNode }>) => {
     const [backgroundImage, setBackgroundImage] = useState<string>("")
+    const [lastWeatherMain, setLastWeatherMain] = useState<string | null>(null)
 
     const { currentWeatherData } = useWeatherDataContext()
 
@@ -35,45 +36,38 @@ export const BackgroundImageContextProvider = ({
     }
 
     useEffect(() => {
-        let selectedImage = ""
-        if (currentWeatherData) {
-            const weatherMain = currentWeatherData.weather[0].main.toLowerCase()
+        if (!currentWeatherData) return
 
-            if (["clouds", "cloudy"].includes(weatherMain)) {
-                selectedImage = selectBackgroundImage(
-                    backgroundImageData.clouds,
-                )
-            } else if (
-                ["rain", "rainy", "rainfall", "showers"].includes(weatherMain)
-            ) {
-                selectedImage = selectBackgroundImage(backgroundImageData.rain)
-            } else if (
-                ["sunny", "sunshine", "sunlight"].includes(weatherMain)
-            ) {
-                selectedImage = selectBackgroundImage(
-                    backgroundImageData.sunshine,
-                )
-            } else if (weatherMain === "haze") {
-                selectedImage = selectBackgroundImage(backgroundImageData.haze)
-            } else if (["thunder", "thunderstorm"].includes(weatherMain)) {
-                selectedImage = selectBackgroundImage(
-                    backgroundImageData.thunder,
-                )
-            } else if (weatherMain === "snow") {
-                selectedImage = selectBackgroundImage(backgroundImageData.snow)
-            } else if (weatherMain === "clear") {
-                selectedImage = selectBackgroundImage(backgroundImageData.clear)
-            } else {
-                selectedImage =
-                    "https://images.pexels.com/photos/391522/pexels-photo-391522.jpeg"
-            }
+        const weatherMain = currentWeatherData.weather[0].main.toLowerCase()
+
+        if (weatherMain === lastWeatherMain) return
+        setLastWeatherMain(weatherMain)
+
+        let selectedImage = ""
+
+        if (["clouds", "cloudy"].includes(weatherMain)) {
+            selectedImage = selectBackgroundImage(backgroundImageData.clouds)
+        } else if (
+            ["rain", "rainy", "rainfall", "showers"].includes(weatherMain)
+        ) {
+            selectedImage = selectBackgroundImage(backgroundImageData.rain)
+        } else if (["sunny", "sunshine", "sunlight"].includes(weatherMain)) {
+            selectedImage = selectBackgroundImage(backgroundImageData.sunshine)
+        } else if (weatherMain === "haze") {
+            selectedImage = selectBackgroundImage(backgroundImageData.haze)
+        } else if (["thunder", "thunderstorm"].includes(weatherMain)) {
+            selectedImage = selectBackgroundImage(backgroundImageData.thunder)
+        } else if (weatherMain === "snow") {
+            selectedImage = selectBackgroundImage(backgroundImageData.snow)
+        } else if (weatherMain === "clear") {
+            selectedImage = selectBackgroundImage(backgroundImageData.clear)
         } else {
             selectedImage =
                 "https://images.pexels.com/photos/391522/pexels-photo-391522.jpeg"
         }
 
         setBackgroundImage(selectedImage)
-    }, [currentWeatherData])
+    }, [currentWeatherData, lastWeatherMain])
 
     return (
         <BackgroundImageContext.Provider
