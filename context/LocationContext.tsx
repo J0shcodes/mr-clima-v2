@@ -37,10 +37,8 @@ export const LocationContextProvider = ({
     const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
-        let watchId: number | null = null
-
         if (navigator.geolocation) {
-            watchId = navigator.geolocation.watchPosition(
+            navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const { latitude, longitude } = position.coords
                     setCoordinates({ latitude, longitude })
@@ -50,16 +48,10 @@ export const LocationContextProvider = ({
                     setError("Geolocation permission denied")
                     fetchLocationByIp()
                 },
-                { enableHighAccuracy: true, maximumAge: 0, timeout: 5000 },
+                { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
             )
         } else {
             fetchLocationByIp()
-        }
-
-        return () => {
-            if (watchId) {
-                navigator.geolocation.clearWatch(watchId)
-            }
         }
     }, [])
 

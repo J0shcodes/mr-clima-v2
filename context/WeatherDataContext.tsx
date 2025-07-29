@@ -49,6 +49,7 @@ export const WeatherDataContextProvider = ({
         HourlyWeatherData[] | null
     >(null)
     const [error, setError] = useState<string | null>(null)
+    // const [weatherSource, setWeatherSource] = useState<"geolo">
 
     const lastFetchedCoords = useRef<{
         lat: number | null
